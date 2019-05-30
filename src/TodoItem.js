@@ -5,8 +5,15 @@ class TodoItem extends Component {
         super(props);
         this.handleItemDelete = this.handleItemDelete.bind(this);
     }
-
+    shouldComponentUpdate(nextProps,nextSate){
+       if(nextProps.content!==this.props.content){
+           return true;
+       }else{
+           return false;
+       }
+    }
     render() {
+        console.log('child render');
         const {content} = this.props;
         return (
             <li

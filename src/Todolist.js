@@ -72,6 +72,10 @@ class Todolist extends Component {
             }
         });
     }
+
+    componentDidMount(){
+        console.log('componentDidMount')
+    }
 }
 
 export default Todolist;
