@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import TodoItem from './TodoItem'
-
+import axios from 'axios'
 class Todolist extends Component {
     constructor(props) {
         super(props);
@@ -74,7 +74,13 @@ class Todolist extends Component {
     }
 
     componentDidMount(){
-        console.log('componentDidMount')
+        axios.get('https://www.easy-mock.com/mock/5d0513ee6d97202d2c7a897a/gettodolist/todolist').then((res)=>{
+            this.setState(()=>{
+                return {
+                    list:res.data.data.list
+                }
+            })
+        })
     }
 }
 
