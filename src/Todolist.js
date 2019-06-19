@@ -1,13 +1,19 @@
-import React, {Component, Fragment} from 'react'
-import axios from 'axios'
+import React, {Component, Fragment} from 'react';
+import axios from 'axios';
 import { Input,List,Button} from 'antd';
-import store from './store/index'
+import store from './store/index';
+import {
+    CHANGE_INPUT_VALUE,
+    ADD_TODO_ITEM,
+    REMOVE_TODO_ITEM,
+    GET_TODO_ALL
+} from './store/actionTypes';
 const Search = Input.Search;
 class Todolist extends Component {
     constructor(props) {
         super(props);
         this.state = store.getState();
-        this.handleChange=this.handleChange.bind(this);
+        this.handleInputChange=this.handleInputChange.bind(this);
         this.handleStoreChange=this.handleStoreChange.bind(this);
         this.handleSearch=this.handleSearch.bind(this);
         store.subscribe(this.handleStoreChange);
@@ -23,7 +29,7 @@ class Todolist extends Component {
                         size="large"
                         value={this.state.inputValue}
                         onSearch={this.handleSearch}
-                        onChange={this.handleChange}
+                        onChange={this.handleInputChange}
                     />
                     <List
                         style={{marginTop:'10px'}}
@@ -57,29 +63,29 @@ class Todolist extends Component {
            let list=res.data.data.list;
             //this.setState(()=>({list}))
             store.dispatch({
-                type:'get_list',
+                type:GET_TODO_ALL,
                 value:list
             });
         }).catch(()=>{
             console.log('请求错误');
         })
     }
-    handleChange(e){
+    handleInputChange(e){
         const action={
-            type:'change_input_value',
+            type:CHANGE_INPUT_VALUE,
             value:e.target.value
         }
         store.dispatch(action);
     }
     handleSearch(val){
         store.dispatch({
-            type:'add_todo_item',
+            type:ADD_TODO_ITEM,
             value:val
         })
     }
     handleItemDelete(index){
         store.dispatch({
-            type:'remvoe_todo_item',
+            type:REMOVE_TODO_ITEM,
             index:index
         })
     }
