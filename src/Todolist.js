@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
-import {Input, List, Button} from 'antd';
 import store from './store/index';
 import {
     getTodoAllAction,
@@ -8,7 +7,7 @@ import {
     getAddTodoItemAction,
     getRemoveTodoItemAction
 } from './store/actionCreators';
-const Search = Input.Search;
+import TodolistUi from './TodolistUI';
 class Todolist extends Component {
     constructor(props) {
         super(props);
@@ -16,42 +15,20 @@ class Todolist extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleStoreChange = this.handleStoreChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleItemDelete=this.handleItemDelete.bind(this);
         store.subscribe(this.handleStoreChange);
     }
 
     render() {
         return (
             <Fragment>
-                <div className="container">
-                    <Search
-                        placeholder="请输入内容"
-                        enterButton="提交"
-                        size="large"
-                        value={this.state.inputValue}
-                        onSearch={this.handleSearch}
-                        onChange={this.handleInputChange}
-                    />
-                    <List
-                        style={{marginTop: '10px'}}
-                        size="large"
-                        bordered
-                        dataSource={this.state.list}
-                        locale={{emptyText: '暂无数据'}}
-                        renderItem={
-                            (item, index) => (
-                                <List.Item>
-                                    <Button type="danger"
-                                            style={{marginRight: '10px'}}
-                                            onClick={this.handleItemDelete.bind(this, index)}
-                                    >
-                                        X
-                                    </Button>
-                                    {item}
-                                </List.Item>
-                            )
-                        }
-                    />
-                </div>
+                <TodolistUi
+                    inputValue={this.state.inputValue}
+                    list={this.state.list}
+                    handleSearch={this.handleSearch}
+                    handleInputChange={this.handleInputChange}
+                    handleItemDelete={this.handleItemDelete}
+                />
             </Fragment>
         );
     }
